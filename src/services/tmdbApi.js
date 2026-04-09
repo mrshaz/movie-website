@@ -28,4 +28,13 @@ export const getMovieDetails = (id) =>
 export const getMovieCredits = (id) =>
   api.get(`/movie/${id}/credits`);
 
+export const getTopRated = (page = 1) =>
+  api.get('/movie/top_rated', { params: { page } });
+
+export const getUpcoming = (page = 1) =>
+  api.get('/movie/upcoming', { params: { page } });
+
+export const getRecommendations = (movieId) =>
+  api.get(`/movie/${movieId}/recommendations`);
+
 export default api;
