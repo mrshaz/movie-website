@@ -2,8 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Global ──────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #141414;
   color: #fff;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ── Skeleton shimmer ────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #1f1f1f 25%, #2a2a2a 50%, #1f1f1f 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s linear infinite;
+}
+
+/* ── Page fade transition ────────────────────────────── */
+.page-transition {
+  animation: fadeIn 0.4s ease-out both;
+}
+
+/* ── Reduced motion overrides ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .skeleton {
+    animation: none;
+    background: #1f1f1f;
+  }
+  .page-transition {
+    animation: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+

@@ -9,32 +9,57 @@ export default function MovieCard({ movie }) {
   return (
     <Link
       to={`/movie/${movie.id}`}
-      className="group relative block bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-transform duration-200 hover:ring-2 hover:ring-netflix-red"
+      className="group relative block bg-gray-900 rounded-lg overflow-hidden shadow-lg
+                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-netflix-red"
     >
-      {posterUrl ? (
-        <img
-          src={posterUrl}
-          alt={movie.title}
-          className="w-full aspect-[2/3] object-cover"
-          loading="lazy"
-        />
-      ) : (
-        <div className="w-full aspect-[2/3] bg-gray-800 flex items-center justify-center text-gray-500 text-sm">
-          No Image
-        </div>
-      )}
+      {/* Poster */}
+      <div className="w-full aspect-[2/3] overflow-hidden">
+        {posterUrl ? (
+          <img
+            src={posterUrl}
+            alt={movie.title}
+            className="w-full h-full object-cover
+                       transition-transform duration-500 ease-out
+                       group-hover:scale-110"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500 text-sm">
+            No Image
+          </div>
+        )}
+      </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
-        <h3 className="text-white font-semibold text-sm leading-tight line-clamp-2">
+      {/* Hover overlay */}
+      <div
+        className="absolute inset-0 flex flex-col justify-end p-3
+                   bg-gradient-to-t from-black/95 via-black/50 to-transparent
+                   opacity-0 group-hover:opacity-100
+                   transition-opacity duration-300"
+      >
+        <h3 className="text-white font-semibold text-sm leading-tight line-clamp-2 mb-1">
           {movie.title}
         </h3>
-        <div className="flex items-center justify-between mt-1 text-xs text-gray-300">
+        <div className="flex items-center justify-between text-xs text-gray-300 mb-2">
           <span>{year}</span>
           <span className="text-yellow-400 font-bold">★ {rating}</span>
         </div>
+        <span
+          aria-hidden="true"
+          className="inline-block text-center text-xs font-semibold
+                     bg-netflix-red hover:bg-red-700
+                     text-white rounded-md py-1.5 px-3
+                     transition-colors duration-200"
+        >
+          View Details
+        </span>
       </div>
 
-      <div className="p-2">
+      {/* Static info bar (visible when not hovered) */}
+      <div
+        className="p-2 transition-opacity duration-300
+                   group-hover:opacity-0"
+      >
         <h3 className="text-white text-xs font-medium truncate">{movie.title}</h3>
         <div className="flex items-center justify-between text-xs text-gray-400 mt-0.5">
           <span>{year}</span>
@@ -44,3 +69,4 @@ export default function MovieCard({ movie }) {
     </Link>
   );
 }
+
