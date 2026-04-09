@@ -45,6 +45,7 @@ export default function MovieCard({ movie }) {
           <span className="text-yellow-400 font-bold">★ {rating}</span>
         </div>
         <span
+          aria-hidden="true"
           className="inline-block text-center text-xs font-semibold
                      bg-netflix-red hover:bg-red-700
                      text-white rounded-md py-1.5 px-3
