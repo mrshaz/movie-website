@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import Header from './components/Header.jsx';
-import HomePage from './pages/HomePage.jsx';
+import CinematicHome from './pages/CinematicHome.jsx';
 import MovieDetailPage from './pages/MovieDetailPage.jsx';
 import SearchResultsPage from './pages/SearchResultsPage.jsx';
 
@@ -17,27 +17,43 @@ function ScrollToTop() {
   return null;
 }
 
-function AnimatedRoutes() {
-  const { key } = useLocation();
+/**
+ * Renders the appropriate layout based on the current route.
+ * The cinematic landing page (/) has its own HUD and does not use the
+ * standard Header; all other routes use the regular Header.
+ */
+function AppContent() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
   return (
-    <main key={key} className="page-transition">
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/movie/:id" element={<MovieDetailPage />} />
-        <Route path="/search" element={<SearchResultsPage />} />
-      </Routes>
-    </main>
+    <>
+      <ScrollToTop />
+      {isHome ? (
+        /* ── Cinematic landing – full-screen, no outer chrome ── */
+        <CinematicHome key={location.key} />
+      ) : (
+        /* ── Standard pages – with Header ──────────────────── */
+        <div className="min-h-screen bg-netflix-dark text-white">
+          <Header />
+          <main key={location.key} className="page-transition">
+            <Routes>
+              <Route path="/movie/:id" element={<MovieDetailPage />} />
+              <Route path="/search" element={<SearchResultsPage />} />
+            </Routes>
+          </main>
+        </div>
+      )}
+    </>
   );
 }
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen bg-netflix-dark text-white">
-        <Header />
-        <ScrollToTop />
-        <AnimatedRoutes />
-      </div>
+      <Routes>
+        <Route path="/*" element={<AppContent />} />
+      </Routes>
     </BrowserRouter>
   );
 }
